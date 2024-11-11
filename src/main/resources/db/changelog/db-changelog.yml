@@ -1,0 +1,77 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: "raul"
+      changes:
+        - createTable:
+            tableName: "trucks"
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  defaultValueComputed: "gen_random_uuid()"
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: "license_plate"
+                  type: "VARCHAR(50)"
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: "model"
+                  type: "VARCHAR(100)"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "capacity_limit"
+                  type: "DOUBLE PRECISION"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "current_load"
+                  type: "DOUBLE PRECISION"
+                  defaultValue: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "status"
+                  type: "VARCHAR(50)"
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 2
+      author: "raul"
+      changes:
+        - createTable:
+            tableName: "loads"
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  defaultValueComputed: "gen_random_uuid()"
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: "truck_id"
+                  type: "UUID"
+                  constraints:
+                    nullable: false
+                    foreignKeyName: "fk_truck_id"
+                    references: "trucks(id)"
+              - column:
+                  name: "volume"
+                  type: "DOUBLE PRECISION"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "description"
+                  type: "VARCHAR(255)"
+              - column:
+                  name: "load_timestamp"
+                  type: "TIMESTAMP"
+              - column:
+                  name: "unload_timestamp"
+                  type: "TIMESTAMP"
